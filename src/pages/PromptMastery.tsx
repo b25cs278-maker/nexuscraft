@@ -14,6 +14,12 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import promptStrip1 from "@/assets/prompt-strip-1.jpg";
+import promptStrip2 from "@/assets/prompt-strip-2.jpg";
+import promptStrip3 from "@/assets/prompt-strip-3.jpg";
+import promptStrip4 from "@/assets/prompt-strip-4.jpg";
+
+const stripImages = [promptStrip1, promptStrip2, promptStrip3, promptStrip4];
 
 const stats = [
   { label: "Lessons Available", value: "48+", icon: BookOpen },
