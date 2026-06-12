@@ -1398,6 +1398,21 @@ export type Database = {
         }
         Returns: boolean
       }
+      get_active_quizzes_for_play: {
+        Args: never
+        Returns: {
+          base_points: number
+          category: Database["public"]["Enums"]["quiz_category"]
+          created_at: string
+          description: string
+          difficulty: Database["public"]["Enums"]["quiz_difficulty"]
+          id: string
+          level: number
+          questions: Json
+          time_limit_seconds: number
+          title: string
+        }[]
+      }
       get_user_execution_score: { Args: { p_user_id: string }; Returns: number }
       has_role: {
         Args: {
@@ -1408,6 +1423,14 @@ export type Database = {
       }
       redeem_reward: {
         Args: { p_reward_id: string; p_user_id: string }
+        Returns: Json
+      }
+      submit_quiz_attempt: {
+        Args: {
+          p_answers: Json
+          p_quiz_id: string
+          p_time_taken_seconds: number
+        }
         Returns: Json
       }
       validate_referral: { Args: { p_referred_id: string }; Returns: Json }
