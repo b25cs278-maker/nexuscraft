@@ -246,15 +246,9 @@ export function EcoQuizBattles() {
                 onClick={() => handleAnswer(index)}
                 disabled={showResult}
                 className={`w-full p-4 rounded-xl border text-left transition-all ${
-                  showResult
-                    ? index === question.correctAnswer
-                      ? 'bg-primary/10 border-primary text-primary'
-                      : index === selectedAnswer
-                        ? 'bg-destructive/10 border-destructive text-destructive'
-                        : 'bg-muted/30 border-border'
-                    : selectedAnswer === index
-                      ? 'bg-primary/10 border-primary'
-                      : 'bg-background border-border hover:border-primary/50 hover:bg-primary/5'
+                  selectedAnswer === index
+                    ? 'bg-primary/10 border-primary'
+                    : 'bg-background border-border hover:border-primary/50 hover:bg-primary/5'
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -262,11 +256,8 @@ export function EcoQuizBattles() {
                     {String.fromCharCode(65 + index)}
                   </span>
                   <span>{option}</span>
-                  {showResult && index === question.correctAnswer && (
+                  {showResult && index === selectedAnswer && (
                     <CheckCircle2 className="h-5 w-5 ml-auto text-primary" />
-                  )}
-                  {showResult && index === selectedAnswer && index !== question.correctAnswer && (
-                    <XCircle className="h-5 w-5 ml-auto text-destructive" />
                   )}
                 </div>
               </button>
@@ -275,9 +266,7 @@ export function EcoQuizBattles() {
 
           {showResult && (
             <div className="flex items-center justify-between pt-4">
-              <p className={`font-medium ${isCorrect ? 'text-primary' : 'text-destructive'}`}>
-                {isCorrect ? '✓ Correct!' : '✗ Wrong answer'}
-              </p>
+              <p className="font-medium text-muted-foreground">Answer recorded</p>
               <Button onClick={nextQuestion}>
                 {currentQuestion < activeQuiz.questions.length - 1 ? 'Next Question' : 'Finish Quiz'}
               </Button>
