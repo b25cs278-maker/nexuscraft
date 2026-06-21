@@ -160,12 +160,45 @@
     @apply border-border;
   }
 
-  body {
-    @apply bg-background text-foreground font-body antialiased;
+  html, body {
+    @apply bg-background text-foreground;
+    max-width: 100%;
+    overflow-x: hidden;
   }
+
+  body {
+    @apply font-body antialiased;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Responsive base font sizing */
+  html { font-size: 15px; }
+  @media (min-width: 768px) { html { font-size: 16px; } }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-display font-bold tracking-tight;
+    overflow-wrap: break-word;
+  }
+
+  p, span, a, li, td, th, label {
+    overflow-wrap: anywhere;
+  }
+
+  img, video, canvas, svg, iframe {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Larger tap targets on touch devices */
+  @media (hover: none) and (pointer: coarse) {
+    button, [role="button"], a.btn, .tap-target {
+      min-height: 44px;
+    }
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
   }
 }
 
