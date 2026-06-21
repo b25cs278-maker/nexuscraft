@@ -396,6 +396,7 @@ const LandingPage: React.FC = () => {
           </div>
         </motion.div>
       </section>
+      </main>
 
       {/* Footer */}
       <footer className="footer">
