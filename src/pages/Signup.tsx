@@ -201,7 +201,7 @@ export default function Signup() {
               type="submit" 
               variant="hero" 
               className="w-full" 
-              disabled={loading}
+              disabled={loading || !online}
             >
               {loading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
