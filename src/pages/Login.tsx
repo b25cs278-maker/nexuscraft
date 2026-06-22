@@ -69,6 +69,17 @@ export default function Login() {
     }
   }, [user, role, loginType, navigate, signOut, toast]);
 
+  // Notify on reconnect
+  const [wasOffline, setWasOffline] = useState(false);
+  useEffect(() => {
+    if (!online) {
+      setWasOffline(true);
+    } else if (wasOffline) {
+      toast({ title: "Back online", description: "You can try signing in again." });
+      setWasOffline(false);
+    }
+  }, [online, wasOffline, toast]);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
