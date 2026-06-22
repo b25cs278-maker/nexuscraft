@@ -119,13 +119,15 @@ export default function Login() {
       if (lower.includes("invalid login") || lower.includes("invalid credentials")) {
         title = "Incorrect email or password";
         description = "Double-check your email and password, then try again.";
-      } else if (lower.includes("email not confirmed")) {
-        title = "Email not verified";
-        description = "Please confirm your email from the link we sent before signing in.";
       } else if (lower.includes("rate") || lower.includes("too many")) {
         title = "Too many attempts";
         description = "You've tried too many times. Please wait a minute and try again.";
       } else if (
+        lower.includes("failed to fetch") ||
+        lower.includes("network") ||
+        lower.includes("load failed") ||
+        lower.includes("timeout")
+      ) {
         lower.includes("failed to fetch") ||
         lower.includes("network") ||
         lower.includes("load failed") ||
