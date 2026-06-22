@@ -8,6 +8,8 @@ import { Leaf, Mail, Lock, Loader2, Shield, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/contexts/AuthContext";
+import { useOnlineStatus } from "@/hooks/useOnlineStatus";
+import { OfflineBanner } from "@/components/shared/OfflineBanner";
 
 export default function Login() {
   const [email, setEmail] = useState("");
