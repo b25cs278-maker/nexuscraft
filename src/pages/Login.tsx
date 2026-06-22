@@ -20,6 +20,7 @@ export default function Login() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { signIn, signOut, user, role } = useAuth();
+  const online = useOnlineStatus();
 
   // Redirect authenticated users based on their role
   useEffect(() => {
