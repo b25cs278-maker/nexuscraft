@@ -8,6 +8,8 @@ import { Leaf, Mail, Loader2, ArrowLeft, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
+import { useOnlineStatus } from "@/hooks/useOnlineStatus";
+import { OfflineBanner } from "@/components/shared/OfflineBanner";
 
 const emailSchema = z.string().email("Please enter a valid email address");
 
