@@ -71,7 +71,16 @@ export default function Login() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
+    if (!online) {
+      toast({
+        title: "You're offline",
+        description: "Connect to the internet and try again — we'll retry automatically when you're back.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (!email || !password) {
       toast({
         title: "Missing fields",
