@@ -8,6 +8,8 @@ import { Leaf, Mail, Lock, Loader2, Shield, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/contexts/AuthContext";
+import { useOnlineStatus } from "@/hooks/useOnlineStatus";
+import { OfflineBanner } from "@/components/shared/OfflineBanner";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -18,6 +20,7 @@ export default function Login() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { signIn, signOut, user, role } = useAuth();
+  const online = useOnlineStatus();
 
   // Redirect authenticated users based on their role
   useEffect(() => {
@@ -66,9 +69,29 @@ export default function Login() {
     }
   }, [user, role, loginType, navigate, signOut, toast]);
 
+  // Notify on reconnect
+  const [wasOffline, setWasOffline] = useState(false);
+  useEffect(() => {
+    if (!online) {
+      setWasOffline(true);
+    } else if (wasOffline) {
+      toast({ title: "Back online", description: "You can try signing in again." });
+      setWasOffline(false);
+    }
+  }, [online, wasOffline, toast]);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
+    if (!online) {
+      toast({
+        title: "You're offline",
+        description: "Connect to the internet and try again — we'll retry automatically when you're back.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (!email || !password) {
       toast({
         title: "Missing fields",
@@ -107,9 +130,6 @@ export default function Login() {
       if (lower.includes("invalid login") || lower.includes("invalid credentials")) {
         title = "Incorrect email or password";
         description = "Double-check your email and password, then try again.";
-      } else if (lower.includes("email not confirmed")) {
-        title = "Email not verified";
-        description = "Please confirm your email from the link we sent before signing in.";
       } else if (lower.includes("rate") || lower.includes("too many")) {
         title = "Too many attempts";
         description = "You've tried too many times. Please wait a minute and try again.";
@@ -168,6 +188,8 @@ export default function Login() {
             </TabsList>
           </Tabs>
 
+          {!online && <OfflineBanner className="mb-4" />}
+
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
@@ -216,7 +238,7 @@ export default function Login() {
               </div>
             </div>
             
-            <Button type="submit" variant="hero" className="w-full" disabled={loading}>
+            <Button type="submit" variant="hero" className="w-full" disabled={loading || !online}>
               {loading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (

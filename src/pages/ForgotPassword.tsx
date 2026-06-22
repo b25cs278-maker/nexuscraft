@@ -8,6 +8,8 @@ import { Leaf, Mail, Loader2, ArrowLeft, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
+import { useOnlineStatus } from "@/hooks/useOnlineStatus";
+import { OfflineBanner } from "@/components/shared/OfflineBanner";
 
 const emailSchema = z.string().email("Please enter a valid email address");
 
@@ -17,10 +19,20 @@ export default function ForgotPassword() {
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
   const { toast } = useToast();
+  const online = useOnlineStatus();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    if (!online) {
+      toast({
+        title: "You're offline",
+        description: "Connect to the internet to request a reset link.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     const result = emailSchema.safeParse(email);
     if (!result.success) {
@@ -30,18 +42,44 @@ export default function ForgotPassword() {
 
     setLoading(true);
 
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
-    });
+    const attempt = async (retries = 1): Promise<{ error: { message: string } | null }> => {
+      try {
+        const res = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${window.location.origin}/reset-password`,
+        });
+        if (res.error && /failed to fetch|network|timeout|load failed/i.test(res.error.message) && retries > 0) {
+          await new Promise((r) => setTimeout(r, 600));
+          return attempt(retries - 1);
+        }
+        return { error: res.error };
+      } catch (err) {
+        if (retries > 0) {
+          await new Promise((r) => setTimeout(r, 600));
+          return attempt(retries - 1);
+        }
+        return { error: { message: (err as Error).message || "Network error" } };
+      }
+    };
+
+    const { error: resetError } = await attempt();
 
     setLoading(false);
 
-    if (error) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message,
-      });
+    if (resetError) {
+      const lower = (resetError.message || "").toLowerCase();
+      let title = "Couldn't send reset email";
+      let description = resetError.message || "Please try again.";
+      if (lower.includes("rate") || lower.includes("too many") || lower.includes("limit")) {
+        title = "Too many requests";
+        description = "You've requested too many resets. Please wait a few minutes and try again.";
+      } else if (lower.includes("invalid") && lower.includes("email")) {
+        title = "Invalid email";
+        description = "Please enter a valid email address.";
+      } else if (/failed to fetch|network|timeout|load failed/.test(lower)) {
+        title = "Connection issue";
+        description = "We couldn't reach the server. Check your internet and try again.";
+      }
+      toast({ variant: "destructive", title, description });
       return;
     }
 
@@ -98,6 +136,7 @@ export default function ForgotPassword() {
         </CardHeader>
 
         <CardContent>
+          {!online && <OfflineBanner className="mb-4" />}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
@@ -115,7 +154,7 @@ export default function ForgotPassword() {
               {error && <p className="text-xs text-destructive">{error}</p>}
             </div>
 
-            <Button type="submit" variant="hero" className="w-full" disabled={loading}>
+            <Button type="submit" variant="hero" className="w-full" disabled={loading || !online}>
               {loading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (

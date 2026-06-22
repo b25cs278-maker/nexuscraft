@@ -7,6 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Leaf, Mail, Lock, User, Loader2, CheckCircle2, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import { useOnlineStatus } from "@/hooks/useOnlineStatus";
+import { OfflineBanner } from "@/components/shared/OfflineBanner";
 
 export default function Signup() {
   const [name, setName] = useState("");
@@ -19,6 +21,16 @@ export default function Signup() {
   const refCode = searchParams.get("ref") || "";
   const { toast } = useToast();
   const { signUp, user } = useAuth();
+  const online = useOnlineStatus();
+  const [wasOffline, setWasOffline] = useState(false);
+
+  useEffect(() => {
+    if (!online) setWasOffline(true);
+    else if (wasOffline) {
+      toast({ title: "Back online", description: "You can try creating your account again." });
+      setWasOffline(false);
+    }
+  }, [online, wasOffline, toast]);
 
   // Redirect authenticated users to dashboard
   useEffect(() => {
@@ -37,7 +49,16 @@ export default function Signup() {
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
+    if (!online) {
+      toast({
+        title: "You're offline",
+        description: "Connect to the internet and try again — we'll let you know when you're back.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (!name || !email || !password) {
       toast({
         title: "Missing fields",
@@ -109,6 +130,7 @@ export default function Signup() {
         </CardHeader>
         
         <CardContent>
+          {!online && <OfflineBanner className="mb-4" />}
           <form onSubmit={handleSignup} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="name">Full Name</Label>
@@ -179,7 +201,7 @@ export default function Signup() {
               type="submit" 
               variant="hero" 
               className="w-full" 
-              disabled={loading}
+              disabled={loading || !online}
             >
               {loading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
