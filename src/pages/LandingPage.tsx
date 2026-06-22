@@ -123,33 +123,7 @@ const LandingPage: React.FC = () => {
           </div>
         </motion.div>
 
-        <motion.div
-          className="hero-visual"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1 }}
-        >
-          <div className="floating-card glass-card">
-            <img
-              src="https://images.unsplash.com/photo-1677442136019-21780ecad995"
-              alt="AI Concept"
-              className="hero-image"
-              width={800}
-              height={600}
-              fetchPriority="high"
-              decoding="async"
-              referrerPolicy="no-referrer"
-            />
-            <div className="floating-badge badge-1">
-              <Terminal className="text-cyan-400 w-5 h-5" />
-              <span>AI Logic Model v2.4</span>
-            </div>
-            <div className="floating-badge badge-2">
-              <Trophy className="text-yellow-400 w-5 h-5" />
-              <span>Top Innovator Reward</span>
-            </div>
-          </div>
-        </motion.div>
+        {/* Hero visual removed per request */}
       </section>
 
       {/* Features */}
