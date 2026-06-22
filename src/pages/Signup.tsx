@@ -7,6 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Leaf, Mail, Lock, User, Loader2, CheckCircle2, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import { useOnlineStatus } from "@/hooks/useOnlineStatus";
+import { OfflineBanner } from "@/components/shared/OfflineBanner";
 
 export default function Signup() {
   const [name, setName] = useState("");
