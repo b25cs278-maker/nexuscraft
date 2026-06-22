@@ -238,7 +238,7 @@ export default function Login() {
               </div>
             </div>
             
-            <Button type="submit" variant="hero" className="w-full" disabled={loading}>
+            <Button type="submit" variant="hero" className="w-full" disabled={loading || !online}>
               {loading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
