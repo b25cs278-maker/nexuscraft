@@ -49,7 +49,16 @@ export default function Signup() {
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
+    if (!online) {
+      toast({
+        title: "You're offline",
+        description: "Connect to the internet and try again — we'll let you know when you're back.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (!name || !email || !password) {
       toast({
         title: "Missing fields",
