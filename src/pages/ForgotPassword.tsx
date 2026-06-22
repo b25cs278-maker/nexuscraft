@@ -19,10 +19,20 @@ export default function ForgotPassword() {
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
   const { toast } = useToast();
+  const online = useOnlineStatus();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    if (!online) {
+      toast({
+        title: "You're offline",
+        description: "Connect to the internet to request a reset link.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     const result = emailSchema.safeParse(email);
     if (!result.success) {
