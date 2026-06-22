@@ -128,11 +128,6 @@ export default function Login() {
         lower.includes("load failed") ||
         lower.includes("timeout")
       ) {
-        lower.includes("failed to fetch") ||
-        lower.includes("network") ||
-        lower.includes("load failed") ||
-        lower.includes("timeout")
-      ) {
         title = "Connection issue";
         description = "We couldn't reach the server. Check your internet and try again.";
       } else if (lower.includes("user not found")) {
