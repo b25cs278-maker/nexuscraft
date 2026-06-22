@@ -188,6 +188,8 @@ export default function Login() {
             </TabsList>
           </Tabs>
 
+          {!online && <OfflineBanner className="mb-4" />}
+
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
