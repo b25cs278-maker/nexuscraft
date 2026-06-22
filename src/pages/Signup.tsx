@@ -130,6 +130,7 @@ export default function Signup() {
         </CardHeader>
         
         <CardContent>
+          {!online && <OfflineBanner className="mb-4" />}
           <form onSubmit={handleSignup} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="name">Full Name</Label>
