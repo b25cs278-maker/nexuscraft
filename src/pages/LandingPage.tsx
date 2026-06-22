@@ -283,44 +283,7 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Workshops */}
-      <section className="workshops-section" id="workshops">
-        <div className="section-header">
-          <div className="section-badge">Live Learning</div>
-          <h2 className="section-title">Expert Workshops</h2>
-          <p className="section-description">
-            Upcoming sessions with industry pioneers and ecological researchers.
-          </p>
-        </div>
-
-        <div className="workshops-grid">
-          {mockData.workshops.map((workshop, i) => (
-            <motion.div
-              key={i}
-              className="workshop-card glass-card"
-              whileHover={{ y: -10 }}
-            >
-              <div className="workshop-image-container">
-                <img src={workshop.image} alt={workshop.title} className="workshop-image" referrerPolicy="no-referrer" />
-                <span className="workshop-badge">{workshop.type}</span>
-              </div>
-              <div className="workshop-content">
-                <h3 className="workshop-title">{workshop.title}</h3>
-                <p className="workshop-instructor">{workshop.instructor}</p>
-                <div className="workshop-meta">
-                  <div className="workshop-date">
-                    <Clock className="inline w-4 h-4 mr-1" /> {workshop.date}
-                  </div>
-                  <div className="workshop-enrolled">
-                    <Users className="inline w-4 h-4 mr-1" /> {workshop.enrolled}
-                  </div>
-                </div>
-                <button className="workshop-button" onClick={goToSignup}>Register Now</button>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
+      {/* Workshops section removed per request */}
 
       {/* Testimonials */}
       <section className="testimonials-section">
