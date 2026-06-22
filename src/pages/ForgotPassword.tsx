@@ -136,6 +136,7 @@ export default function ForgotPassword() {
         </CardHeader>
 
         <CardContent>
+          {!online && <OfflineBanner className="mb-4" />}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
