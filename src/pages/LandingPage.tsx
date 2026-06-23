@@ -15,14 +15,28 @@ import {
   Mail,
 } from 'lucide-react';
 import { mockData } from '@/utils/mockData';
+import { useAuth } from '@/contexts/AuthContext';
 import aiInnovationImg from '@/assets/ai-innovation.jpg';
 import '@/styles/landing.css';
 
 const LandingPage: React.FC = () => {
   const navigate = useNavigate();
+  const { user, role, loading } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+
+  // If a user is already signed in, route them straight to their dashboard
+  // so reloads land back where they were working instead of the marketing page.
+  useEffect(() => {
+    if (loading) return;
+    if (!user) return;
+    if (role === 'admin') {
+      navigate('/admin', { replace: true });
+    } else {
+      navigate('/student/dashboard', { replace: true });
+    }
+  }, [user, role, loading, navigate]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -240,33 +254,12 @@ const LandingPage: React.FC = () => {
       {/* Community */}
       <section className="community-section" id="community">
         <div className="community-grid">
-          <motion.div
-            className="leaderboard-card glass-card"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <div className="leaderboard-header">
-              <Trophy className="text-yellow-400 w-8 h-8" />
-              <h3>Weekly Leaderboard</h3>
-            </div>
-            {mockData.leaderboard.map((user, i) => (
-              <div key={i} className={`leaderboard-item rank-${i + 1}`}>
-                <div className="rank-badge">{i + 1}</div>
-                <div className="user-info">
-                  <div className="user-name">{user.name}</div>
-                  <div className="user-stats">{user.modules} Modules • {user.credits} XP</div>
-                </div>
-              </div>
-            ))}
-          </motion.div>
-
           <div>
             <div className="section-badge">Global Hub</div>
             <h2 className="section-title">Join the Community</h2>
             <p className="community-text">
-              Network with 50,000+ environmental tech enthusiasts and AI
-              developers from around the world.
+              Network with fellow learners and AI builders, share progress, and
+              collaborate on real environmental and AI projects.
             </p>
             <div className="community-features">
               {mockData.communityFeatures.map((feature, i) => (
@@ -283,38 +276,6 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Workshops section removed per request */}
-
-      {/* Testimonials */}
-      <section className="testimonials-section">
-        <div className="section-header">
-          <div className="section-badge">Success Stories</div>
-          <h2 className="section-title">Member Testimonials</h2>
-        </div>
-
-        <div className="testimonials-grid">
-          {mockData.testimonials.map((t, i) => (
-            <motion.div
-              key={i}
-              className="testimonial-card glass-card"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-            >
-              <div className="testimonial-header">
-                <div className="testimonial-avatar">{t.avatar}</div>
-                <div>
-                  <div className="testimonial-name">{t.name}</div>
-                  <div className="testimonial-role">{t.role}</div>
-                </div>
-              </div>
-              <p className="testimonial-text">"{t.text}"</p>
-              <div className="testimonial-achievement">{t.achievement}</div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
 
       {/* Final CTA */}
       <section className="final-cta-section" id="cta">
