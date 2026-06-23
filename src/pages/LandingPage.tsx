@@ -21,9 +21,22 @@ import '@/styles/landing.css';
 
 const LandingPage: React.FC = () => {
   const navigate = useNavigate();
+  const { user, role, loading } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+
+  // If a user is already signed in, route them straight to their dashboard
+  // so reloads land back where they were working instead of the marketing page.
+  useEffect(() => {
+    if (loading) return;
+    if (!user) return;
+    if (role === 'admin') {
+      navigate('/admin', { replace: true });
+    } else {
+      navigate('/student/dashboard', { replace: true });
+    }
+  }, [user, role, loading, navigate]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
