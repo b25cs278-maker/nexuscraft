@@ -45,7 +45,7 @@ export function Navbar() {
             <Leaf className="h-5 w-5 text-primary-foreground" />
           </div>
           <span className="text-xl font-display font-bold text-foreground">
-            Eco<span className="text-primary">Learn</span>
+            Nexus<span className="text-primary">Craft</span>
           </span>
         </Link>
 
