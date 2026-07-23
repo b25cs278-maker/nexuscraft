@@ -13,7 +13,7 @@ export function Footer() {
                 <Leaf className="h-5 w-5 text-primary-foreground" />
               </div>
               <span className="text-xl font-display font-bold">
-                Eco<span className="text-primary">Learn</span>
+                Nexus<span className="text-primary">Craft</span>
               </span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
