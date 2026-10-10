@@ -1,20 +1,15 @@
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { TaskManager } from '@/components/productivity/TaskManager';
 import { DeepWorkAIPlanner } from '@/components/productivity/DeepWorkAIPlanner';
 import { 
   useLocalStorage, 
   ProductivityTask, 
   Habit, 
   Goal, 
-  DayPlan,
-  ExecutionRule 
 } from '@/hooks/useLocalStorage';
 import { ProductivityInsights } from '@/components/productivity/ProductivityInsights';
 import { 
-  ListTodo, 
-  Brain, 
   Sparkles,
 } from 'lucide-react';
 
@@ -23,24 +18,9 @@ export default function Productivity() {
   const [tasks, setTasks] = useLocalStorage<ProductivityTask[]>('productivity-tasks', []);
   const [habits, setHabits] = useLocalStorage<Habit[]>('productivity-habits', []);
   const [goals, setGoals] = useLocalStorage<Goal[]>('productivity-goals', []);
-  const [dayPlan, setDayPlan] = useLocalStorage<DayPlan[]>('productivity-day-plan', []);
-  
-
-  // Task handlers
+  // Planner-created tasks remain available to the AI planner and insights.
   const handleAddTask = (task: ProductivityTask) => {
     setTasks(prev => [...prev, task]);
-  };
-
-  const handleToggleTask = (id: string) => {
-    setTasks(prev => prev.map(t => 
-      t.id === id 
-        ? { ...t, completed: !t.completed, completedAt: !t.completed ? new Date().toISOString() : undefined }
-        : t
-    ));
-  };
-
-  const handleDeleteTask = (id: string) => {
-    setTasks(prev => prev.filter(t => t.id !== id));
   };
 
   // Calculate life metrics for AI planner
@@ -69,14 +49,14 @@ export default function Productivity() {
             Productivity Hub
           </h1>
           <p className="text-muted-foreground">
-            Track tasks & plan with AI. Everything runs offline.
+            Build a plan with AI and review your progress. Everything runs offline.
           </p>
         </div>
 
 
         {/* Main Tabs */}
         <Tabs defaultValue="ai-planner" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3 lg:w-auto lg:inline-flex">
+          <TabsList className="grid w-full grid-cols-2 lg:w-auto lg:inline-flex">
             <TabsTrigger value="ai-planner" className="flex items-center gap-2">
               <Sparkles className="h-4 w-4" />
               <span className="hidden sm:inline">AI Planner</span>
@@ -84,10 +64,6 @@ export default function Productivity() {
             <TabsTrigger value="insights" className="flex items-center gap-2">
               <Sparkles className="h-4 w-4" />
               <span className="hidden sm:inline">Insights</span>
-            </TabsTrigger>
-            <TabsTrigger value="tasks" className="flex items-center gap-2">
-              <ListTodo className="h-4 w-4" />
-              <span className="hidden sm:inline">Tasks</span>
             </TabsTrigger>
           </TabsList>
 
@@ -109,15 +85,6 @@ export default function Productivity() {
               tasks={tasks}
               habits={habits}
               goals={goals}
-            />
-          </TabsContent>
-
-          <TabsContent value="tasks" className="space-y-6">
-            <TaskManager
-              tasks={tasks}
-              onAddTask={handleAddTask}
-              onToggleTask={handleToggleTask}
-              onDeleteTask={handleDeleteTask}
             />
           </TabsContent>
 
