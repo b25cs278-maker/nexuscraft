@@ -26,7 +26,7 @@ export const en = {
     dashboard: "Overview Dashboard",
     tasks: "Workshops",
     rewards: "Rewards",
-    community: "Nexus Craft Network",
+    community: "Eco Learn Network",
     profile: "Learner Profile",
     settings: "Platform Settings",
     logout: "Sign Out",
@@ -243,7 +243,7 @@ export const en = {
     theme: "Theme",
     notifications: "Notification Preferences",
     privacy: "Privacy Settings",
-    about: "About Nexus Craft",
+    about: "About Eco Learn",
   },
 
   // Errors

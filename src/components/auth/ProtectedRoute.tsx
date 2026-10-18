@@ -30,7 +30,11 @@ export function ProtectedRoute({ children, requiredRole, allowGuest = false }: P
     return <Navigate to="/login" replace />;
   }
 
-  if (requiredRole && role && role !== requiredRole) {
+  if (requiredRole && role !== requiredRole) {
+    // Redirect to appropriate dashboard based on actual role
+    if (role === "admin") {
+      return <Navigate to="/admin" replace />;
+    }
     return <Navigate to="/dashboard" replace />;
   }
 

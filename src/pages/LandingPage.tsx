@@ -15,24 +15,14 @@ import {
   Mail,
 } from 'lucide-react';
 import { mockData } from '@/utils/mockData';
-import { useAuth } from '@/contexts/AuthContext';
 import aiInnovationImg from '@/assets/ai-innovation.jpg';
 import '@/styles/landing.css';
 
 const LandingPage: React.FC = () => {
   const navigate = useNavigate();
-  const { user, loading } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
-
-  // If a user is already signed in, route them straight to their dashboard
-  // so reloads land back where they were working instead of the marketing page.
-  useEffect(() => {
-    if (loading) return;
-    if (!user) return;
-    navigate('/student/dashboard', { replace: true });
-  }, [user, loading, navigate]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -82,7 +72,7 @@ const LandingPage: React.FC = () => {
             <div className="logo-image bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center">
               <Terminal className="text-white w-6 h-6" />
             </div>
-            <span className="logo-text">NexusCraft</span>
+            <span className="logo-text">EcoLearn</span>
           </div>
           <div className="nav-links">
             <button className="nav-link" onClick={() => scrollToSection('innovations')}>Innovations</button>
@@ -250,12 +240,33 @@ const LandingPage: React.FC = () => {
       {/* Community */}
       <section className="community-section" id="community">
         <div className="community-grid">
+          <motion.div
+            className="leaderboard-card glass-card"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <div className="leaderboard-header">
+              <Trophy className="text-yellow-400 w-8 h-8" />
+              <h3>Weekly Leaderboard</h3>
+            </div>
+            {mockData.leaderboard.map((user, i) => (
+              <div key={i} className={`leaderboard-item rank-${i + 1}`}>
+                <div className="rank-badge">{i + 1}</div>
+                <div className="user-info">
+                  <div className="user-name">{user.name}</div>
+                  <div className="user-stats">{user.modules} Modules • {user.credits} XP</div>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+
           <div>
             <div className="section-badge">Global Hub</div>
             <h2 className="section-title">Join the Community</h2>
             <p className="community-text">
-              Network with fellow learners and AI builders, share progress, and
-              collaborate on real environmental and AI projects.
+              Network with 50,000+ environmental tech enthusiasts and AI
+              developers from around the world.
             </p>
             <div className="community-features">
               {mockData.communityFeatures.map((feature, i) => (
@@ -272,35 +283,34 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Testimonials / Member Reviews */}
+      {/* Workshops section removed per request */}
+
+      {/* Testimonials */}
       <section className="testimonials-section">
         <div className="section-header">
-          <div className="section-badge">Member Reviews</div>
-          <h2 className="section-title">Loved by learners worldwide</h2>
-          <p className="section-description">
-            See how NexusCraft is helping innovators build real skills and make an impact.
-          </p>
+          <div className="section-badge">Success Stories</div>
+          <h2 className="section-title">Member Testimonials</h2>
         </div>
 
         <div className="testimonials-grid">
-          {mockData.testimonials.map((testimonial, i) => (
+          {mockData.testimonials.map((t, i) => (
             <motion.div
               key={i}
               className="testimonial-card glass-card"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
             >
               <div className="testimonial-header">
-                <div className="testimonial-avatar">{testimonial.avatar}</div>
+                <div className="testimonial-avatar">{t.avatar}</div>
                 <div>
-                  <div className="testimonial-name">{testimonial.name}</div>
-                  <div className="testimonial-role">{testimonial.role}</div>
+                  <div className="testimonial-name">{t.name}</div>
+                  <div className="testimonial-role">{t.role}</div>
                 </div>
               </div>
-              <p className="testimonial-text">{testimonial.text}</p>
-              <div className="testimonial-achievement">{testimonial.achievement}</div>
+              <p className="testimonial-text">"{t.text}"</p>
+              <div className="testimonial-achievement">{t.achievement}</div>
             </motion.div>
           ))}
         </div>
@@ -333,20 +343,20 @@ const LandingPage: React.FC = () => {
               <div className="logo-image bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center">
                 <Terminal className="text-white w-6 h-6" />
               </div>
-              <span className="logo-text">NexusCraft</span>
+              <span className="logo-text">EcoLearn</span>
             </div>
             <p className="footer-tagline">
               Empowering innovators to solve global challenges through
               AI and technology-driven education.
             </p>
             <div className="flex gap-4 mt-2">
-              <a href="https://twitter.com/nexuscraft" target="_blank" rel="noopener noreferrer" aria-label="NexusCraft on Twitter">
+              <a href="https://twitter.com/ecolearn" target="_blank" rel="noopener noreferrer" aria-label="EcoLearn on Twitter">
                 <Twitter className="w-5 h-5 text-gray-400 cursor-pointer hover:text-cyan-400" aria-hidden="true" />
               </a>
-              <a href="https://github.com/nexuscraft" target="_blank" rel="noopener noreferrer" aria-label="NexusCraft on GitHub">
+              <a href="https://github.com/ecolearn" target="_blank" rel="noopener noreferrer" aria-label="EcoLearn on GitHub">
                 <Github className="w-5 h-5 text-gray-400 cursor-pointer hover:text-white" aria-hidden="true" />
               </a>
-              <a href="https://linkedin.com/company/nexuscraft" target="_blank" rel="noopener noreferrer" aria-label="NexusCraft on LinkedIn">
+              <a href="https://linkedin.com/company/ecolearn" target="_blank" rel="noopener noreferrer" aria-label="EcoLearn on LinkedIn">
                 <Linkedin className="w-5 h-5 text-gray-400 cursor-pointer hover:text-cyan-600" aria-hidden="true" />
               </a>
             </div>
@@ -394,12 +404,12 @@ const LandingPage: React.FC = () => {
             <a href="#">Terms of Service</a>
             <div className="flex items-center gap-2 text-gray-400 mt-4">
               <Mail className="w-4 h-4" />
-              <span>support@nexuscraft.ai</span>
+              <span>support@ecolearn.ai</span>
             </div>
           </div>
         </div>
         <div className="footer-bottom">
-          &copy; 2026 NexusCraft AI Hub. All rights reserved. Built for a sustainable future.
+          &copy; 2026 EcoLearn AI Hub. All rights reserved. Built for a sustainable future.
         </div>
       </footer>
     </div>

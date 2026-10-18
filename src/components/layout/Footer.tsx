@@ -13,7 +13,7 @@ export function Footer() {
                 <Leaf className="h-5 w-5 text-primary-foreground" />
               </div>
               <span className="text-xl font-display font-bold">
-                Nexus<span className="text-primary">Craft</span>
+                Eco<span className="text-primary">Learn</span>
               </span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
@@ -22,35 +22,35 @@ export function Footer() {
             </p>
             <div className="flex items-center gap-4">
               <a
-                href="https://linkedin.com/company/nexuscraft"
+                href="https://linkedin.com/company/ecolearn"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="NexusCraft on LinkedIn"
+                aria-label="EcoLearn on LinkedIn"
                 className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300"
               >
                 <Linkedin className="h-5 w-5" aria-hidden="true" />
               </a>
               <a
-                href="https://instagram.com/nexuscraft"
+                href="https://instagram.com/ecolearn"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="NexusCraft on Instagram"
+                aria-label="EcoLearn on Instagram"
                 className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300"
               >
                 <Instagram className="h-5 w-5" aria-hidden="true" />
               </a>
               <a
-                href="https://youtube.com/@nexuscraft"
+                href="https://youtube.com/@ecolearn"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="NexusCraft on YouTube"
+                aria-label="EcoLearn on YouTube"
                 className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300"
               >
                 <Youtube className="h-5 w-5" aria-hidden="true" />
               </a>
               <a
-                href="mailto:hello@nexuscraft.com"
-                aria-label="Email NexusCraft"
+                href="mailto:hello@ecolearn.com"
+                aria-label="Email EcoLearn"
                 className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300"
               >
                 <Mail className="h-5 w-5" aria-hidden="true" />
@@ -88,7 +88,7 @@ export function Footer() {
         <div className="mt-12 pt-8 border-t border-border">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} NexusCraft. All rights reserved.
+              © {new Date().getFullYear()} EcoLearn. All rights reserved.
             </p>
             <div className="flex items-center gap-6 text-sm text-muted-foreground">
               <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a>
