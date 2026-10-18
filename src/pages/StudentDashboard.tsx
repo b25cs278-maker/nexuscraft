@@ -16,6 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { LearnerNetwork } from "@/components/network/LearnerNetwork";
 import { NotificationsPanel } from "@/components/user/NotificationsPanel";
 import { FeedbackSupport } from "@/components/user/FeedbackSupport";
 
@@ -30,7 +31,7 @@ import { ReferralQuizFlow } from "@/components/referral/ReferralQuizFlow";
 import PromptMastery from "@/pages/PromptMastery";
 import { 
   Award, Target, TrendingUp, Clock, CheckCircle2, 
-  Leaf, Trophy, Star, Camera, Bell, HelpCircle, Swords, GraduationCap,
+  Leaf, Trophy, Star, Camera, Lightbulb, Bell, HelpCircle, Swords, GraduationCap,
   Bot, Video, Share2, Sparkles
 } from "lucide-react";
 import { toast } from "sonner";
@@ -174,6 +175,9 @@ export default function Dashboard() {
   const sidebarItems = [
     { id: "dashboard", label: "Overview Dashboard", icon: <Target className="h-4 w-4" /> },
     { id: "prompt-mastery", label: "Prompt Mastery", icon: <Sparkles className="h-4 w-4" /> },
+    { id: "competitions", label: "Competitions", icon: <Trophy className="h-4 w-4" /> },
+    { id: "community", label: "Learner Interaction Space", icon: <Lightbulb className="h-4 w-4" /> },
+    
     { id: "coach", label: "AI Learning Assistant", icon: <Bot className="h-4 w-4" /> },
   ];
 
@@ -450,12 +454,37 @@ export default function Dashboard() {
     </div>
   );
 
+  const renderCompetitionsContent = () => (
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-2xl font-display font-bold flex items-center gap-2">
+          <Trophy className="h-6 w-6 text-primary" />
+          Competitions
+        </h2>
+        <p className="text-muted-foreground">
+          Compete with fellow learners and climb the leaderboard
+        </p>
+      </div>
+      <Card variant="eco">
+        <CardContent className="py-12 text-center">
+          <Trophy className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-foreground mb-2">Coming Soon!</h3>
+          <p className="text-muted-foreground">
+            Exciting competitions are being prepared. Stay tuned!
+          </p>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
   const renderContent = () => {
     switch (activeSection) {
       case "dashboard": return renderDashboardContent();
       case "prompt-mastery": return <PromptMastery />;
       
       
+      case "competitions": return renderCompetitionsContent();
+      case "community": return <LearnerNetwork />;
       case "coach": return <AIEcoCoach />;
       default: return renderDashboardContent();
     }
