@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { motion, AnimatePresence, type TargetAndTransition } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Card } from "@/components/ui/card";
@@ -260,7 +260,7 @@ export function InteractiveVideoLesson({
   };
 
   const getAnimationVariants = (animation: string, delay: number) => {
-    const variants: Record<string, { initial: TargetAndTransition; animate: TargetAndTransition }> = {
+    const variants: Record<string, { initial: object; animate: object }> = {
       fadeIn: {
         initial: { opacity: 0 },
         animate: { opacity: 1, transition: { delay, duration: 0.5 } }
