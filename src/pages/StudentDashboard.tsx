@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { trackData } from "@/data/trackData";
@@ -32,7 +32,7 @@ import PromptMastery from "@/pages/PromptMastery";
 import { 
   Award, Target, TrendingUp, Clock, CheckCircle2, 
   Leaf, Trophy, Star, Camera, Lightbulb, Bell, HelpCircle, Swords, GraduationCap,
-  Bot, Video, Share2, Sparkles
+  Bot, Video, Share2, Sparkles, Zap, BookOpen, LogOut
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -58,7 +58,8 @@ interface TrackProgress {
 }
 
 export default function Dashboard() {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState("dashboard");
   const [stats, setStats] = useState<UserStats>({
     points: 0,
@@ -179,6 +180,8 @@ export default function Dashboard() {
     { id: "community", label: "Learner Interaction Space", icon: <Lightbulb className="h-4 w-4" /> },
     
     { id: "coach", label: "AI Learning Assistant", icon: <Bot className="h-4 w-4" /> },
+    { id: "productivity", label: "Productivity", icon: <Zap className="h-4 w-4" /> },
+    { id: "learn", label: "Learn", icon: <BookOpen className="h-4 w-4" /> },
   ];
 
   if (loading) {
@@ -481,13 +484,28 @@ export default function Dashboard() {
     switch (activeSection) {
       case "dashboard": return renderDashboardContent();
       case "prompt-mastery": return <PromptMastery />;
-      
-      
       case "competitions": return renderCompetitionsContent();
       case "community": return <LearnerNetwork />;
       case "coach": return <AIEcoCoach />;
       default: return renderDashboardContent();
     }
+  };
+
+  const handleSidebarItemClick = (id: string) => {
+    if (id === "learn") {
+      navigate("/tracks");
+      return;
+    }
+    if (id === "productivity") {
+      navigate("/productivity");
+      return;
+    }
+    setActiveSection(id);
+  };
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate("/");
   };
 
   return (
@@ -498,10 +516,16 @@ export default function Dashboard() {
         <DashboardSidebar
           items={sidebarItems}
           activeItem={activeSection}
-          onItemClick={setActiveSection}
+          onItemClick={handleSidebarItemClick}
           title="Welcome back!"
           subtitle="Track your learning journey"
           headerIcon={<Leaf className="h-5 w-5 text-primary" />}
+          footerAction={
+            <Button variant="ghost" onClick={handleLogout} className="w-full justify-start text-destructive">
+              <LogOut className="h-4 w-4 mr-3" />
+              Logout
+            </Button>
+          }
           headerAction={
             <Link to="/tasks">
               <Button variant="hero" size="sm" className="w-full">
