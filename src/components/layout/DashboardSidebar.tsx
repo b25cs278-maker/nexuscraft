@@ -20,6 +20,7 @@ interface DashboardSidebarProps {
   subtitle?: string;
   headerIcon?: React.ReactNode;
   headerAction?: React.ReactNode;
+  footerAction?: React.ReactNode;
 }
 
 export function DashboardSidebar({
@@ -30,6 +31,7 @@ export function DashboardSidebar({
   subtitle,
   headerIcon,
   headerAction,
+  footerAction,
 }: DashboardSidebarProps) {
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(!isMobile);
@@ -124,6 +126,11 @@ export function DashboardSidebar({
               ))}
             </nav>
           </ScrollArea>
+          {footerAction && (
+            <div className="border-t border-border p-3">
+              {footerAction}
+            </div>
+          )}
         </div>
       </aside>
     </>
